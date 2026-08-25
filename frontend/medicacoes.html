@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>Medicações Prescritas</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+  <h2>💊 Medicações Prescritas</h2>
+
+  <div id="listaMedicacoes">
+
+    <p>
+      Carregando medicações...
+    </p>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const API = "http://localhost:3000";
+
+
+// ======================================================
+// CARREGAR MEDICAÇÕES
+// ======================================================
+
+async function carregarMedicacoesPrescritas() {
+
+  const div =
+    document.getElementById(
+      "listaMedicacoes"
+    );
+
+
+  try {
+
+    const response =
+      await fetch(
+        API + "/medicacoes"
+      );
+
+
+    const texto =
+      await response.text();
+
+
+    console.log(
+      "Resposta /medicacoes:",
+      texto
+    );
+
+
+    let data = [];
+
+
+    if (texto) {
+
+      try {
+
+        data =
+          JSON.parse(texto);
+
+      } catch (erro) {
+
+        throw new Error(
+          "O servidor respondeu algo que não é JSON."
+        );
+
+      }
+
+    }
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.erro ||
+        "Erro ao carregar medicações."
+      );
+
+    }
+
+
+    if (!Array.isArray(data)) {
+
+      throw new Error(
+        "Formato de dados inválido."
+      );
+
+    }
+
+
+    div.innerHTML = "";
+
+
+    // ==================================================
+    // NENHUMA MEDICAÇÃO
+    // ==================================================
+
+    if (data.length === 0) {
+
+      div.innerHTML = `
+
+        <p>
+          Nenhuma medicação prescrita.
+        </p>
+
+      `;
+
+      return;
+    }
+
+
+    // ==================================================
+    // MOSTRAR MEDICAÇÕES
+    // ==================================================
+
+    data.forEach(c => {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "card";
+
+
+      card.innerHTML = `
+
+        <h3>
+          ${c.paciente || "Paciente"}
+        </h3>
+
+
+        <p>
+          <b>💊 Medicação:</b>
+          ${c.medicacao || "Não informada"}
+        </p>
+
+
+        <p>
+          <b>🩺 Diagnóstico:</b>
+          ${c.diagnostico || "Não informado"}
+        </p>
+
+
+        <p>
+          <b>📝 Observações:</b>
+          ${c.obs || "Nenhuma"}
+        </p>
+
+
+        <p style="color:#777;font-size:12px;">
+
+          ${
+            c.createdAt
+              ? new Date(c.createdAt)
+                  .toLocaleString("pt-BR")
+              : ""
+          }
+
+        </p>
+
+      `;
+
+
+      div.appendChild(card);
+
+    });
+
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao carregar medicações:",
+      error
+    );
+
+
+    div.innerHTML = `
+
+      <p style="color:red;">
+
+        ❌ Erro ao carregar as medicações.
+
+      </p>
+
+      <p style="color:#777;font-size:13px;">
+
+        ${error.message}
+
+      </p>
+
+    `;
+
+  }
+
+}
+
+
+// ======================================================
+// INICIAR
+// ======================================================
+
+carregarMedicacoesPrescritas();
+
+
+// ======================================================
+// ATUALIZAR A CADA 10 SEGUNDOS
+// ======================================================
+
+setInterval(
+  carregarMedicacoesPrescritas,
+  10000
+);
+
+</script>
+
+</body>
+
+</html><!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>Medicações Prescritas</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+  <h2>💊 Medicações Prescritas</h2>
+
+  <div id="listaMedicacoes">
+
+    <p>
+      Carregando medicações...
+    </p>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const API = "http://localhost:3000";
+
+
+// ======================================================
+// CARREGAR MEDICAÇÕES
+// ======================================================
+
+async function carregarMedicacoesPrescritas() {
+
+  const div =
+    document.getElementById(
+      "listaMedicacoes"
+    );
+
+
+  try {
+
+    const response =
+      await fetch(
+        API + "/medicacoes"
+      );
+
+
+    const texto =
+      await response.text();
+
+
+    console.log(
+      "Resposta /medicacoes:",
+      texto
+    );
+
+
+    let data = [];
+
+
+    if (texto) {
+
+      try {
+
+        data =
+          JSON.parse(texto);
+
+      } catch (erro) {
+
+        throw new Error(
+          "O servidor respondeu algo que não é JSON."
+        );
+
+      }
+
+    }
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.erro ||
+        "Erro ao carregar medicações."
+      );
+
+    }
+
+
+    if (!Array.isArray(data)) {
+
+      throw new Error(
+        "Formato de dados inválido."
+      );
+
+    }
+
+
+    div.innerHTML = "";
+
+
+    // ==================================================
+    // NENHUMA MEDICAÇÃO
+    // ==================================================
+
+    if (data.length === 0) {
+
+      div.innerHTML = `
+
+        <p>
+          Nenhuma medicação prescrita.
+        </p>
+
+      `;
+
+      return;
+    }
+
+
+    // ==================================================
+    // MOSTRAR MEDICAÇÕES
+    // ==================================================
+
+    data.forEach(c => {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "card";
+
+
+      card.innerHTML = `
+
+        <h3>
+          ${c.paciente || "Paciente"}
+        </h3>
+
+
+        <p>
+          <b>💊 Medicação:</b>
+          ${c.medicacao || "Não informada"}
+        </p>
+
+
+        <p>
+          <b>🩺 Diagnóstico:</b>
+          ${c.diagnostico || "Não informado"}
+        </p>
+
+
+        <p>
+          <b>📝 Observações:</b>
+          ${c.obs || "Nenhuma"}
+        </p>
+
+
+        <p style="color:#777;font-size:12px;">
+
+          ${
+            c.createdAt
+              ? new Date(c.createdAt)
+                  .toLocaleString("pt-BR")
+              : ""
+          }
+
+        </p>
+
+      `;
+
+
+      div.appendChild(card);
+
+    });
+
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao carregar medicações:",
+      error
+    );
+
+
+    div.innerHTML = `
+
+      <p style="color:red;">
+
+        ❌ Erro ao carregar as medicações.
+
+      </p>
+
+      <p style="color:#777;font-size:13px;">
+
+        ${error.message}
+
+      </p>
+
+    `;
+
+  }
+
+}
+
+
+// ======================================================
+// INICIAR
+// ======================================================
+
+carregarMedicacoesPrescritas();
+
+
+// ======================================================
+// ATUALIZAR A CADA 10 SEGUNDOS
+// ======================================================
+
+setInterval(
+  carregarMedicacoesPrescritas,
+  10000
+);
+
+</script>
+
+</body>
+
+</html>
